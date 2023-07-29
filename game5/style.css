@@ -1,0 +1,19 @@
+#canvas1{
+    position: absolute;
+    border: 3px solid black;
+    width: 700px;
+    height: 700px;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background: white;
+}
+
+#collisionCanvas {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
