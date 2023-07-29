@@ -14,10 +14,12 @@ window.addEventListener('load', () => {
         constructor() {
             this.keys = [];
             window.addEventListener('keydown', (e) => {
+                console.log(e);
                 if((e.key === 'ArrowDown' || 
                     e.key === 'ArrowUp' || 
                     e.key === 'ArrowRight' || 
-                    e.key === 'ArrowLeft') && 
+                    e.key === 'ArrowLeft' ||
+                    e.key === ' ') && 
                     this.keys.indexOf(e.key) === -1) {
                         this.keys.push(e.key);
                 }
@@ -27,7 +29,8 @@ window.addEventListener('load', () => {
                 if(e.key === 'ArrowDown' || 
                     e.key === 'ArrowUp' || 
                     e.key === 'ArrowRight' || 
-                    e.key === 'ArrowLeft') {
+                    e.key === 'ArrowLeft'||
+                    e.key === ' ') {
                         this.keys.splice(this.keys.indexOf(e.key), 1);
                 }
                 console.log(this.keys);
@@ -67,16 +70,6 @@ window.addEventListener('load', () => {
                 }
             });
             this.timeSinceLastFrame += deltaTime;
-            if(inputHandler.keys.indexOf('ArrowRight') > -1 ) {
-                this.speed = 5;
-            } else if(inputHandler.keys.indexOf('ArrowLeft') > -1) {
-                this.speed = -5;
-            } else if(inputHandler.keys.indexOf('ArrowUp') > -1 && this.onTheGround()) {
-                this.speedY -= 22;
-            } else {
-                this.speed = 0;
-            }
-
             // vertical speed
             this.y += this.speedY;
             if(!this.onTheGround()) {
@@ -93,6 +86,21 @@ window.addEventListener('load', () => {
             if(this.x > this.gameWidth - this.width) {
                 this.x = this.gameWidth- this.width;
             }
+            if(inputHandler.keys.indexOf('ArrowRight') > -1 ) {
+                this.speed = 5;
+            } else if(inputHandler.keys.indexOf('ArrowLeft') > -1) {
+                this.speed = -5;
+            } else if(inputHandler.keys.indexOf('ArrowUp') > -1 && this.onTheGround()) {
+                this.speedY -= 22;
+            } else if(inputHandler.keys.indexOf(' ') > -1){
+                this.speed = 10;
+                this.frameY = 2;
+                this.numOfFrames = 6;
+            }
+            else {
+                this.speed = 0;
+            }
+
             if(this.x < 0) {
                 this.x = 0;
             }
@@ -108,7 +116,6 @@ window.addEventListener('load', () => {
         }
 
         draw(ctx) {
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
             ctx.drawImage(
                 this.image,
                 this.frame * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight,
@@ -180,7 +187,6 @@ window.addEventListener('load', () => {
         }
 
         draw(ctx) {
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
             ctx.drawImage(
                 this.image, 
                 this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight,
@@ -191,11 +197,12 @@ window.addEventListener('load', () => {
 
     let timeSinceLastFrame = 0;
     let randomEnemyInterval = 0;
+
     function handleEnemies(deltaTime) {
         timeSinceLastFrame += deltaTime;
-        if(timeSinceLastFrame > 2000 + randomEnemyInterval) {
+        if(timeSinceLastFrame > 1000 + randomEnemyInterval) {
             enemies.push(new Enemy(canvas.width, canvas.height));
-            randomEnemyInterval = Math.random() * 1000 + 500;
+            randomEnemyInterval = Math.random() * 10000 ;
             timeSinceLastFrame = 0;
         }
         enemies.forEach((e) => {
