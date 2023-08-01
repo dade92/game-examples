@@ -5,6 +5,8 @@ export const states = {
     RUN_LEFT: 3,
     CRAWL_RIGHT: 4,
     CRAWL_LEFT: 5,
+    JUMP_RIGHT: 6,
+    FALL_RIGHT: 7,
 }
 
 class State {
@@ -62,6 +64,9 @@ export class StandingRight extends State {
         else if(input === 'PRESS down') {
             this.player.setState(states.CRAWL_RIGHT);
         }
+        else if(input === 'PRESS up') {
+            this.player.setState(states.JUMP_RIGHT);
+        }
     }
 }
 
@@ -102,6 +107,39 @@ export class RunLeft extends State {
         } else if(input === 'RELEASE left') {
             this.player.setState(states.STANDING_LEFT);
         }
+    }
+}
+
+export class JumpRight extends State {
+    constructor(player) {
+        super('JUMP RIGHT');
+        this.player = player;
+    }
+
+    enter() {
+        this.player.frameY = 2;
+        this.player.speedY = -15;
+    }
+
+    handleInput(input) {
+        if(input === 'RELEASE up') {
+            this.player.setState(states.FALL_RIGHT);
+        }
+    }
+}
+
+export class FallRight extends State {
+    constructor(player) {
+        super('FALL RIGHT');
+        this.player = player;
+    }
+
+    enter() {
+        this.player.frameY = 4;
+        this.player.speedY = 0;
+    }
+
+    handleInput(input) {
     }
 }
 
