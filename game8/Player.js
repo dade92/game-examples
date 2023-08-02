@@ -1,4 +1,4 @@
-import { StandingLeft, StandingRight, RunRight, RunLeft, CrawlRight, CrawlLeft, JumpRight, FallRight } from "./State.js";
+import { StandingLeft, StandingRight, RunRight, RunLeft, CrawlRight, CrawlLeft, JumpRight, FallRight, JumpLeft, FallLeft } from "./State.js";
 
 export default class Player {
     constructor(gameWidth, gameHeight, inputHandler) {
@@ -13,6 +13,8 @@ export default class Player {
             new CrawlLeft(this),
             new JumpRight(this),
             new FallRight(this),
+            new JumpLeft(this),
+            new FallLeft(this),
         ];
         this.currentState = this.states[0];
         this.inputHandler = inputHandler;
@@ -27,16 +29,31 @@ export default class Player {
         this.frameY = this.states.indexOf(this.currentState);
         this.speed = 0;
         this.speedY = 0;
-        this.weight = 1;
+        this.weight = 0.5;
         this.timeSinceLastFrame = 0;
         //TODO remember to  change this according to the order of the states
-        this.numOfFrames = [7, 7, 9, 9, 5, 5, 7, 7];
+        this.numOfFrames = [7, 7, 9, 9, 5, 5, 7, 7, 7, 7];
         this.frameInterval = 1000 / 20;
+        this.maxSpeed = 3;
     }
 
     update(deltaTime, input) {
         this.x += this.speed;
         this.y += this.speedY;
+        if(!this.onTheGround()) {
+            this.speedY += this.weight;
+        } else {
+            this.speedY = 0;
+        }
+
+        if(this.x < 0) {
+            this.x = 0;
+        } else if(this.x > this.gameWidth - this.width) {
+            this.x = this.gameWidth - this.width;
+        }
+        if(this.y > this.gameHeight - this.height) {
+            this.y = this.gameHeight - this.height;
+        }
 
         this.timeSinceLastFrame += deltaTime;
         if(this.timeSinceLastFrame > this.frameInterval) {
@@ -44,18 +61,6 @@ export default class Player {
             this.timeSinceLastFrame = 0;
         }
         this.currentState.handleInput(input);
-
-        if(!this.onTheGround()) {
-            console.log('No more on the ground');
-            this.speedY += this.weight;
-            if(this.y >= this.gameHeight - this.height) {
-                console.log('end falling');
-                // Ends the falling
-                this.y = 0;
-                this.speedY = 0;
-                this.currentState = this.states[0];
-            }
-        }
     }
 
     onTheGround() {

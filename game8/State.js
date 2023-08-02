@@ -7,6 +7,8 @@ export const states = {
     CRAWL_LEFT: 5,
     JUMP_RIGHT: 6,
     FALL_RIGHT: 7,
+    JUMP_LEFT: 8,
+    FALL_LEFT: 9,
 }
 
 class State {
@@ -39,6 +41,8 @@ export class StandingLeft extends State {
         } 
         else if(input === 'PRESS down') {
             this.player.setState(states.CRAWL_LEFT);
+        } else if(input === 'PRESS up') {
+            this.player.setState(states.JUMP_LEFT);
         }
     }
 }
@@ -78,7 +82,7 @@ export class RunRight extends State {
 
     enter() {
         this.player.frameY = 6;
-        this.player.speed = 3;
+        this.player.speed = this.player.maxSpeed;
     }
 
     handleInput(input) {
@@ -98,7 +102,7 @@ export class RunLeft extends State {
 
     enter() {
         this.player.frameY = 7;
-        this.player.speed = -3;
+        this.player.speed = -this.player.maxSpeed;
     }
 
     handleInput(input) {
@@ -118,12 +122,32 @@ export class JumpRight extends State {
 
     enter() {
         this.player.frameY = 2;
-        this.player.speedY = -15;
+        this.player.speedY = -20;
+        this.player.speed = this.player.maxSpeed;
     }
 
     handleInput(input) {
-        if(input === 'RELEASE up') {
+        if(!this.player.onTheGround() && this.player.speedY === 0) {
             this.player.setState(states.FALL_RIGHT);
+        }
+    }
+}
+
+export class JumpLeft extends State {
+    constructor(player) {
+        super('JUMP LEFT');
+        this.player = player;
+    }
+
+    enter() {
+        this.player.frameY = 3;
+        this.player.speedY = -20;
+        this.player.speed = -this.player.maxSpeed;
+    }
+
+    handleInput(input) {
+        if(!this.player.onTheGround() && this.player.speedY === 0) {
+            this.player.setState(states.FALL_LEFT);
         }
     }
 }
@@ -136,10 +160,29 @@ export class FallRight extends State {
 
     enter() {
         this.player.frameY = 4;
-        this.player.speedY = 0;
     }
 
     handleInput(input) {
+        if(this.player.onTheGround()) {
+            this.player.setState(states.STANDING_RIGHT);
+        }
+    }
+}
+
+export class FallLeft extends State {
+    constructor(player) {
+        super('FALL LEFT');
+        this.player = player;
+    }
+
+    enter() {
+        this.player.frameY = 5;
+    }
+
+    handleInput(input) {
+        if(this.player.onTheGround()) {
+            this.player.setState(states.STANDING_LEFT);
+        }
     }
 }
 
