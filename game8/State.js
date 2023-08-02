@@ -9,6 +9,8 @@ export const states = {
     FALL_RIGHT: 7,
     JUMP_LEFT: 8,
     FALL_LEFT: 9,
+    ROLL_RIGHT: 10,
+    ROLL_LEFT: 11,
 }
 
 class State {
@@ -43,6 +45,8 @@ export class StandingLeft extends State {
             this.player.setState(states.CRAWL_LEFT);
         } else if(input === 'PRESS up') {
             this.player.setState(states.JUMP_LEFT);
+        } else if(input === 'PRESS space') {
+            this.player.setState(states.ROLL_LEFT);
         }
     }
 }
@@ -70,6 +74,8 @@ export class StandingRight extends State {
         }
         else if(input === 'PRESS up') {
             this.player.setState(states.JUMP_RIGHT);
+        } else if(input === 'PRESS space') {
+            this.player.setState(states.ROLL_RIGHT);
         }
     }
 }
@@ -89,6 +95,8 @@ export class RunRight extends State {
         if(input === 'PRESS right') {
             this.player.setState(states.RUN_RIGHT);
         } else if(input === 'RELEASE right') {
+            this.player.setState(states.STANDING_RIGHT);
+        } else if(input === 'PRESS right') {
             this.player.setState(states.STANDING_RIGHT);
         }
     }
@@ -110,6 +118,8 @@ export class RunLeft extends State {
             this.player.setState(states.RUN_LEFT);
         } else if(input === 'RELEASE left') {
             this.player.setState(states.STANDING_LEFT);
+        } else if(input === 'PRESS right') {
+            this.player.setState(states.STANDING_RIGHT);
         }
     }
 }
@@ -219,6 +229,44 @@ export class CrawlLeft extends State {
         if(input === 'PRESS down') {
             this.player.setState(states.CRAWL_LEFT);
         } else if(input === 'RELEASE down') {
+            this.player.setState(states.STANDING_LEFT);
+        }
+    }
+}
+
+export class RolllRight extends State {
+    constructor(player) {
+        super('ROLL RIGHT');
+        this.player = player;
+        this.triggerPosition = 0;
+    }
+
+    enter() {
+        this.player.frameY = 10;
+        this.player.speed = this.player.maxSpeed * 3;
+        this.triggerPosition = this.player.x;
+    }
+
+    handleInput(input) {
+        if(input === 'RELEASE space') {
+            this.player.setState(states.STANDING_RIGHT);
+        }
+    }
+}
+
+export class RolllLeft extends State {
+    constructor(player) {
+        super('ROLL LEFT');
+        this.player = player;
+    }
+
+    enter() {
+        this.player.frameY = 11;
+        this.player.speed = -this.player.maxSpeed * 3;
+    }
+
+    handleInput(input) {
+        if(input === 'RELEASE space') {
             this.player.setState(states.STANDING_LEFT);
         }
     }

@@ -1,4 +1,4 @@
-class InputHandler {
+export class InputHandler {
     constructor() {
         this.keys = [];
         this.lastKey = ''
@@ -18,6 +18,9 @@ class InputHandler {
                 case "ArrowUp":
                     this.lastKey = 'PRESS up';
                     break;
+                case " ":
+                    this.lastKey = 'PRESS space';
+                    break;
             }
         });
         window.addEventListener('keyup', (e) => {
@@ -33,6 +36,9 @@ class InputHandler {
                     break;
                 case "ArrowUp":
                     this.lastKey = 'RELEASE up';
+                    break;
+                case " ":
+                    this.lastKey = 'RELEASE space';
                     break;
             }
         });

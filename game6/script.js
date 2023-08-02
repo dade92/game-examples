@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
             this.timeSinceLastUpdate = 0;
             this.x = this.game.width;
             this.y = Math.random() * this.game.height;
-            //TODO set speed for every enemy
             this.speed = speed;
             this.spriteWidth = spriteWidth;
             this.spriteHeight = spriteHeight;

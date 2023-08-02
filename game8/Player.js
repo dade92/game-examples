@@ -1,4 +1,4 @@
-import { StandingLeft, StandingRight, RunRight, RunLeft, CrawlRight, CrawlLeft, JumpRight, FallRight, JumpLeft, FallLeft } from "./State.js";
+import { StandingLeft, StandingRight, RunRight, RunLeft, CrawlRight, CrawlLeft, JumpRight, FallRight, JumpLeft, FallLeft, RolllRight, RolllLeft } from "./State.js";
 
 export default class Player {
     constructor(gameWidth, gameHeight, inputHandler) {
@@ -15,6 +15,8 @@ export default class Player {
             new FallRight(this),
             new JumpLeft(this),
             new FallLeft(this),
+            new RolllRight(this),
+            new RolllLeft(this),
         ];
         this.currentState = this.states[0];
         this.inputHandler = inputHandler;
@@ -32,7 +34,7 @@ export default class Player {
         this.weight = 0.5;
         this.timeSinceLastFrame = 0;
         //TODO remember to  change this according to the order of the states
-        this.numOfFrames = [7, 7, 9, 9, 5, 5, 7, 7, 7, 7];
+        this.numOfFrames = [7, 7, 9, 9, 5, 5, 7, 7, 7, 7, 7, 7];
         this.frameInterval = 1000 / 20;
         this.maxSpeed = 3;
     }
