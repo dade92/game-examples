@@ -6,6 +6,7 @@ export const states = {
     FALL_RIGHT: 4,
     ROLL_RIGHT: 5,
     RUN_LEFT: 6,
+    ROLL_DOWN: 7,
 }
 
 class State {
@@ -38,8 +39,6 @@ export class StandingRight extends State {
         }
         else if(input === 'PRESS up') {
             this.player.setState(states.JUMP_RIGHT);
-        } else if(input === 'PRESS space') {
-            this.player.setState(states.ROLL_RIGHT);
         } else if(input === 'PRESS left') {
             this.player.setState(states.RUN_LEFT);
         }
@@ -96,13 +95,15 @@ export class JumpRight extends State {
 
     enter() {
         this.player.frameY = 1;
-        this.player.speedY = -15;
+        this.player.speedY = -20;
         this.player.speed = this.player.maxSpeed;
     }
 
     handleInput(input) {
         if(!this.player.onTheGround() && this.player.speedY === 0) {
             this.player.setState(states.FALL_RIGHT);
+        } else if(input === 'PRESS space') {
+            this.player.setState(states.ROLL_DOWN);
         }
     }
 }
@@ -115,6 +116,27 @@ export class FallRight extends State {
 
     enter() {
         this.player.frameY = 2;
+    }
+
+    handleInput(input) {
+        if(this.player.onTheGround()) {
+            this.player.setState(states.STANDING_RIGHT);
+        } else if(input === 'PRESS space') {
+            this.player.setState(states.ROLL_DOWN);
+        }
+    }
+}
+
+export class RollDown extends State {
+    constructor(player) {
+        super('ROLL DOWN');
+        this.player = player;
+    }
+
+    enter() {
+        this.player.frameY = 6;
+        this.player.speedY = 20;
+        this.player.speed  = 0;
     }
 
     handleInput(input) {

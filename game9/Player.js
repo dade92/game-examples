@@ -1,4 +1,4 @@
-import { StandingRight, RunRight, CrawlRight, JumpRight, FallRight, RolllRight, RunLeft } from "./State.js";
+import { StandingRight, RunRight, CrawlRight, JumpRight, FallRight, RolllRight, RunLeft, RollDown } from "./State.js";
 
 export default class Player {
     constructor(game, inputHandler) {
@@ -13,6 +13,7 @@ export default class Player {
             new FallRight(this),
             new RolllRight(this),
             new RunLeft(this),
+            new RollDown(this),
         ];
         this.currentState = this.states[0];
         this.inputHandler = inputHandler;
@@ -29,7 +30,7 @@ export default class Player {
         this.speedY = 0;
         this.weight = 0.5;
         this.timeSinceLastFrame = 0;
-        this.numOfFrames = [7, 9, 5, 7, 7, 7, 7];
+        this.numOfFrames = [7, 9, 5, 7, 7, 7, 7, 7];
         this.frameInterval = 1000 / 20;
         this.maxSpeed = 3;
     }
