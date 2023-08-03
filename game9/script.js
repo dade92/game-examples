@@ -1,12 +1,13 @@
 import Player from './Player.js'
 import InputHandler from './InputHandler.js'
+import {Background} from './Background.js'
 
 /**@type {HTMLCanvasElement} */
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
-    canvas.width = 600;
+    canvas.width = 1000;
     canvas.height = 600;
     let lastTime = 0, deltaTime;
 
@@ -16,13 +17,26 @@ window.addEventListener('load', () => {
             this.height = height;
             this.input = new InputHandler();
             this.player = new Player(this, this.input);
+            this.backgrounds = [
+                new Background('layer-1.png', 1660, 600),
+                new Background('layer-2.png', 1660, 600),
+                new Background('layer-3.png', 1660, 600),
+                new Background('layer-4.png', 1660, 600),
+                new Background('layer-5.png', 1660, 600),
+            ]
         }
 
         update(deltaTime) {
             this.player.update(deltaTime);
+            this.backgrounds.forEach((b, index) => {
+                b.update((this.player.speed / 10) * index);
+            });
         }
 
         draw(ctx) {
+            this.backgrounds.forEach((b) => {
+                b.draw(ctx)
+            });
             this.player.draw(ctx);
         }
     }
