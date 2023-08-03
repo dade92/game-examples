@@ -28,7 +28,7 @@ export default class Player {
         this.x = 0;
         this.y = gameHeight - this.height;
         this.frame = 0;
-        this.frameY = this.states.indexOf(this.currentState);
+        this.frameY = 0;
         this.speed = 0;
         this.speedY = 0;
         this.weight = 0.5;
