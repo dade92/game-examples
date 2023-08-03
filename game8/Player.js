@@ -33,13 +33,12 @@ export default class Player {
         this.speedY = 0;
         this.weight = 0.5;
         this.timeSinceLastFrame = 0;
-        //TODO remember to  change this according to the order of the states
         this.numOfFrames = [7, 7, 9, 9, 5, 5, 7, 7, 7, 7, 7, 7];
         this.frameInterval = 1000 / 20;
         this.maxSpeed = 3;
     }
 
-    update(deltaTime, input) {
+    update(deltaTime) {
         this.x += this.speed;
         this.y += this.speedY;
         if(!this.onTheGround()) {
@@ -62,7 +61,7 @@ export default class Player {
             this.frame = (this.frame + 1) % this.numOfFrames[this.states.indexOf(this.currentState)];
             this.timeSinceLastFrame = 0;
         }
-        this.currentState.handleInput(input);
+        this.currentState.handleInput(this.inputHandler.lastKey);
     }
 
     onTheGround() {
