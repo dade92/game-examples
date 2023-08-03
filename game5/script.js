@@ -144,7 +144,7 @@ window.addEventListener('click', (e) => {
             r.randomColors[2] === pc[2]
         ) {
             r.markedForDeletion = true;
-            score+= 1 / r.width;
+            score+= 1;
             explosions.push(new Explosion(e.x, e.y, r.width));
         }
     });
