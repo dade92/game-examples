@@ -16,14 +16,15 @@ window.addEventListener('load', () => {
         constructor(width, height) {
             this.width = width;
             this.height = height;
+            this.groundMargin = 50;
             this.input = new InputHandler();
             this.player = new Player(this, this.input);
             this.backgrounds = [
-                new Background('layer-1.png', 1660, 600),
-                new Background('layer-2.png', 1660, 600),
-                new Background('layer-3.png', 1660, 600),
-                new Background('layer-4.png', 1660, 600),
-                new Background('layer-5.png', 1660, 600),
+                new Background('layer-1.png', 1660, 600, 0.2),
+                new Background('layer-2.png', 1660, 600, 0.2),
+                new Background('layer-3.png', 1660, 600, 0.2),
+                new Background('layer-4.png', 1660, 600, 0.4),
+                new Background('layer-5.png', 1660, 600, 0),
             ];
             this.maxEnemyTime = 20000;
             this.minEnemyTime = 2000;

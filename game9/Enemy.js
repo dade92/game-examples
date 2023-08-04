@@ -37,7 +37,7 @@ class Enemy {
 export class WalkingZombie extends Enemy {
     constructor(game) {
         super('enemy_zombie.png', 290, 404, 8);
-        this.y = game.height - this.height;
+        this.y = game.height - this.height - game.groundMargin;
         this.x = game.width;
         this.speed = 1;
     }

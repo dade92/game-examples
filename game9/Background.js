@@ -1,13 +1,15 @@
 export class Background {
-    constructor(image, width, height) {
+    constructor(image, width, height, speedModifier) {
         this.image = new Image();
         this.image.src = image;
         this.x = 0;
         this.width = width;
         this.height = height;
+        this.speedModifier = speedModifier;
     }
 
     update(playerSpeed) {
+        this.x -= this.speedModifier;
         if(playerSpeed > 0) {
             this.x -= playerSpeed;
         }

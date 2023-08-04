@@ -23,14 +23,14 @@ export default class Player {
         this.width = this.spriteWidth / 1;
         this.height = this.spriteHeight / 1;
         this.x = 0;
-        this.y = this.gameHeight - this.height;
+        this.y = this.gameHeight - this.height - this.game.groundMargin;
         this.frame = 0;
         this.frameY = 0;
         this.speed = 0;
         this.speedY = 0;
         this.weight = 0.5;
         this.timeSinceLastFrame = 0;
-        this.numOfFrames = [7, 9, 5, 7, 7, 7, 7, 7];
+        this.numOfFrames = 7;
         this.frameInterval = 1000 / 20;
         this.maxSpeed = 3;
     }
@@ -49,20 +49,20 @@ export default class Player {
         } else if(this.x > this.gameWidth - this.width) {
             this.x = this.gameWidth - this.width;
         }
-        if(this.y > this.gameHeight - this.height) {
-            this.y = this.gameHeight - this.height;
+        if(this.y > this.gameHeight - this.height - this.game.groundMargin) {
+            this.y = this.gameHeight - this.height - this.game.groundMargin;
         }
 
         this.timeSinceLastFrame += deltaTime;
         if(this.timeSinceLastFrame > this.frameInterval) {
-            this.frame = (this.frame + 1) % this.numOfFrames[this.states.indexOf(this.currentState)];
+            this.frame = (this.frame + 1) % this.numOfFrames;
             this.timeSinceLastFrame = 0;
         }
         this.currentState.handleInput(this.inputHandler.lastKey);
     }
 
     onTheGround() {
-        return this.y >= this.gameHeight - this.height;
+        return this.y >= this.gameHeight - this.height - this.game.groundMargin;
     }
 
     setState(state) {

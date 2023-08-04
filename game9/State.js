@@ -28,6 +28,7 @@ export class StandingRight extends State {
     enter() {
         this.player.frameY = 0;
         this.player.speed = 0;
+        this.player.numOfFrames = 7;
     }
 
     handleInput(input) {
@@ -54,6 +55,7 @@ export class RunRight extends State {
     enter() {
         this.player.frameY = 3;
         this.player.speed = this.player.maxSpeed;
+        this.player.numOfFrames = 9;
     }
 
     handleInput(input) {
@@ -74,6 +76,7 @@ export class RunLeft extends State {
     enter() {
         this.player.frameY = 3;
         this.player.speed = -this.player.maxSpeed;
+        this.player.numOfFrames = 9;
     }
 
     handleInput(input) {
@@ -97,6 +100,7 @@ export class JumpRight extends State {
         this.player.frameY = 1;
         this.player.speedY = -20;
         this.player.speed = this.player.maxSpeed;
+        this.player.numOfFrames = 7;
     }
 
     handleInput(input) {
@@ -116,6 +120,7 @@ export class FallRight extends State {
 
     enter() {
         this.player.frameY = 2;
+        this.player.numOfFrames = 7;
     }
 
     handleInput(input) {
@@ -137,6 +142,7 @@ export class RollDown extends State {
         this.player.frameY = 6;
         this.player.speedY = 20;
         this.player.speed  = 0;
+        this.player.numOfFrames = 7;
     }
 
     handleInput(input) {
@@ -154,6 +160,7 @@ export class CrawlRight extends State {
 
     enter() {
         this.player.frameY = 5;
+        this.player.numOfFrames = 5;
     }
 
     handleInput(input) {
@@ -176,6 +183,7 @@ export class RolllRight extends State {
         this.player.frameY = 6;
         this.player.speed = this.player.maxSpeed * 3;
         this.triggerPosition = this.player.x;
+        this.player.numOfFrames = 7;
     }
 
     handleInput(input) {
