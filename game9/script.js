@@ -1,6 +1,6 @@
 import Player from './Player.js'
 import InputHandler from './InputHandler.js'
-import { Background } from './Background.js'
+import { Backgrounds } from './Background.js'
 import { WalkingZombie } from './Enemy.js';
 
 /**@type {HTMLCanvasElement} */
@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
     canvas.width = 1000;
-    canvas.height = 600;
+    canvas.height = 500;
     let lastTime = 0, deltaTime;
 
     class Game {
@@ -19,21 +19,17 @@ window.addEventListener('load', () => {
             this.groundMargin = 50;
             this.input = new InputHandler();
             this.player = new Player(this, this.input);
-            this.backgrounds = [
-                new Background('layer-1.png', 1660, 600, 0.2),
-                new Background('layer-2.png', 1660, 600, 0.2),
-                new Background('layer-3.png', 1660, 600, 0.2),
-                new Background('layer-4.png', 1660, 600, 0.4),
-                new Background('layer-5.png', 1660, 600, 0),
-            ];
+            this.backgrounds = new Backgrounds(this, this.player);
             this.maxEnemyTime = 20000;
             this.minEnemyTime = 2000;
             this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
             this.timeSinceLastEnemy = 0;
             this.enemies = [];
+            this.speed = 0;
         }
 
         update(deltaTime) {
+            this.backgrounds.update();
             this.timeSinceLastEnemy += deltaTime;
             if(this.timeSinceLastEnemy > this.enemyTime) {
                 this.enemies.push(new WalkingZombie(this));
@@ -41,9 +37,6 @@ window.addEventListener('load', () => {
                 this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;;
             }
             this.player.update(deltaTime);
-            this.backgrounds.forEach((b, index) => {
-                b.update((this.player.speed / 10) * index);
-            });
             this.enemies.forEach((e) => {
                 e.update(deltaTime);
             });
@@ -51,9 +44,7 @@ window.addEventListener('load', () => {
         }
 
         draw(ctx) {
-            this.backgrounds.forEach((b) => {
-                b.draw(ctx)
-            });
+            this.backgrounds.draw(ctx);
             this.enemies.forEach((e) => {
                 e.draw(ctx);
             })
