@@ -1,4 +1,4 @@
-import { StandingRight, RunRight, CrawlRight, JumpRight, FallRight, RolllRight, RunLeft, RollDown } from "./State.js";
+import { states, StandingRight, RunRight, CrawlRight, JumpRight, FallRight, RolllRight, RunLeft, RollDown, Hit } from "./State.js";
 
 export default class Player {
     constructor(game, inputHandler) {
@@ -14,6 +14,7 @@ export default class Player {
             new RolllRight(this),
             new RunLeft(this),
             new RollDown(this),
+            new Hit(this),
         ];
         this.currentState = this.states[0];
         this.inputHandler = inputHandler;
@@ -33,6 +34,8 @@ export default class Player {
         this.numOfFrames = 7;
         this.frameInterval = 1000 / 20;
         this.maxSpeed = 3;
+        this.lives = 5;
+        this.isHit = false;
     }
 
     update(deltaTime) {
@@ -59,6 +62,9 @@ export default class Player {
             this.timeSinceLastFrame = 0;
         }
         this.currentState.handleInput(this.inputHandler.lastKey);
+        // if(!this.isHit) {
+            this.checkCollision();
+        // }
     }
 
     onTheGround() {
@@ -72,12 +78,30 @@ export default class Player {
     }
 
     draw(ctx) {
+        if(this.game.debug) {
+            ctx.beginPath();
+            ctx.arc(this.x + this.width / 2, this.y + this.height /2, this.width / 2, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
         ctx.drawImage(
             this.image,
             this.spriteWidth * this.frame, this.spriteHeight * this.frameY, 
-                this.spriteWidth, this.spriteHeight,
+            this.spriteWidth, this.spriteHeight,
             this.x, this.y,this.width, this.height
         );
+    }
+
+    checkCollision() {
+        this.game.enemies.forEach((e) => {
+            const dx = (e.x + e.width /2) - (this.x + this.width / 2);
+            const dy = (e.y + e.height / 2) - (this.y + this.height / 2);
+            const distance = Math.sqrt(dx*dx + dy*dy);
+            if(distance < e.width / 2 + this.width / 2) {
+                // TODO instead if the player is rolling, remove the enemy!
+                this.setState(states.HIT);
+                this.lives--;
+            }
+        })
     }
 
 }

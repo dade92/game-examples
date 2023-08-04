@@ -38,6 +38,11 @@ class Enemy {
     }
 
     draw(ctx) {
+        if(this.game.debug) {
+            ctx.beginPath();
+            ctx.arc(this.x + this.width / 2, this.y + this.height /2, this.width / 2, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
         ctx.drawImage(
             this.image,
             this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight,

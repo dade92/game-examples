@@ -7,6 +7,7 @@ export const states = {
     ROLL_RIGHT: 5,
     RUN_LEFT: 6,
     ROLL_DOWN: 7,
+    HIT: 8,
 }
 
 class State {
@@ -189,6 +190,29 @@ export class RolllRight extends State {
     handleInput(input) {
         if(input === 'RELEASE space') {
             this.player.setState(states.STANDING_RIGHT);
+        }
+    }
+}
+
+export class Hit extends State {
+    constructor(player) {
+        super('HIT');
+        this.player = player;
+    }
+
+    enter() {
+        this.player.frameY = 4;
+        this.player.numOfFrames = 11;
+        this.player.speed = 0;
+        this.player.isHit = true;
+    }
+
+    handleInput(input) {
+        this.isHit = false;
+        if(input === 'PRESS right') {
+            this.player.setState(states.STANDING_RIGHT);
+        } else if(input === 'PRESS left') {
+            this.player.setState(states.RUN_LEFT);
         }
     }
 }

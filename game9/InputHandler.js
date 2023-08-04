@@ -1,6 +1,7 @@
 class InputHandler {
     //TODO probably we should manage a list of keys not just the last one
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.keys = [];
         this.lastKey = '';
         this.touchY = 0;
@@ -21,6 +22,9 @@ class InputHandler {
                     break;
                 case " ":
                     this.lastKey = 'PRESS space';
+                    break;
+                case "d":
+                    this.game.debug = !this.game.debug;
                     break;
             }
         });

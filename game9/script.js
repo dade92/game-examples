@@ -17,7 +17,7 @@ window.addEventListener('load', () => {
             this.width = width;
             this.height = height;
             this.groundMargin = 50;
-            this.input = new InputHandler();
+            this.input = new InputHandler(this);
             this.player = new Player(this, this.input);
             this.backgrounds = new Backgrounds(this, this.player);
             this.maxEnemyTime = 3000;
@@ -31,6 +31,9 @@ window.addEventListener('load', () => {
                 () => new Plant(this),
             ]
             this.speed = 0;
+            this.debug = false;
+            this.lives = new Image();
+            this.lives.src = 'heart.png';
         }
 
         update(deltaTime) {
@@ -58,6 +61,16 @@ window.addEventListener('load', () => {
                 e.draw(ctx);
             })
             this.player.draw(ctx);
+            this.drawLives(ctx);
+        }
+
+        drawLives(ctx) {
+            for(let i = 0; i< this.player.lives; i++) {
+                ctx.drawImage(
+                    this.lives,
+                    i * 50 /2 + 20, 20, 50 / 2, 50 / 2
+                )
+            }
         }
 
         addEnemy() {
