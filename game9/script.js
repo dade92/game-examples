@@ -1,7 +1,7 @@
 import Player from './Player.js'
 import InputHandler from './InputHandler.js'
 import { Backgrounds } from './Background.js'
-import { WalkingZombie, FlyingEnemy, Plant } from './Enemy.js';
+import { WalkingZombie, Mosquito, Plant } from './Enemy.js';
 
 /**@type {HTMLCanvasElement} */
 
@@ -27,25 +27,28 @@ window.addEventListener('load', () => {
             this.enemies = [];
             this.enemyFactory = [
                 () => new WalkingZombie(this),
-                () => new FlyingEnemy(this),
+                () => new Mosquito(this),
                 () => new Plant(this),
             ]
             this.speed = 0;
         }
 
         update(deltaTime) {
+            // Updates the backgrounds
             this.backgrounds.update();
+
+            // Enemy adding logic
             this.timeSinceLastEnemy += deltaTime;
             if(this.timeSinceLastEnemy > this.enemyTime) {
-                this.enemies.push(this.enemyFactory[Math.floor(Math.random() * 3)]());
-                this.timeSinceLastEnemy = 0;
-                this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
-                console.log(this.enemies);
+                this.addEnemy();
             }
+
+            // Updates player and enemies. Collision detection too
             this.player.update(deltaTime);
             this.enemies.forEach((e) => {
                 e.update(deltaTime);
             });
+
             this.enemies = this.enemies.filter(e => !e.toBeRemoved);
         }
 
@@ -55,6 +58,15 @@ window.addEventListener('load', () => {
                 e.draw(ctx);
             })
             this.player.draw(ctx);
+        }
+
+        addEnemy() {
+            if(this.speed > 0) {
+                this.enemies.push(this.enemyFactory[Math.floor(Math.random() * 3)]());
+                this.timeSinceLastEnemy = 0;
+                this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
+                console.log(this.enemies);
+            }
         }
     }
 
