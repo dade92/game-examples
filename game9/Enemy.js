@@ -20,7 +20,7 @@ class Enemy {
     }
 
     update(deltaTime) {
-        // Move the enemy
+        // Move the enemy (with game speed adjustment)
         this.x += this.speed - this.game.speed;
         this.y += this.speedY;
 
@@ -76,9 +76,5 @@ export class WalkingZombie extends Enemy {
         super(game, 'enemy_zombie.png', 290, 404, 8, 4);
         this.y = game.height - this.height - game.groundMargin;
         this.speed = -1;
-    }
-
-    update(deltaTime) {
-        super.update(deltaTime);
     }
 }
