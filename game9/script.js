@@ -1,7 +1,7 @@
 import Player from './Player.js'
 import InputHandler from './InputHandler.js'
 import { Backgrounds } from './Background.js'
-import { WalkingZombie } from './Enemy.js';
+import { WalkingZombie, FlyingEnemy, Plant } from './Enemy.js';
 
 /**@type {HTMLCanvasElement} */
 
@@ -20,11 +20,16 @@ window.addEventListener('load', () => {
             this.input = new InputHandler();
             this.player = new Player(this, this.input);
             this.backgrounds = new Backgrounds(this, this.player);
-            this.maxEnemyTime = 20000;
-            this.minEnemyTime = 2000;
+            this.maxEnemyTime = 5000;
+            this.minEnemyTime = 1000;
             this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
             this.timeSinceLastEnemy = 0;
             this.enemies = [];
+            this.enemyFactory = [
+                () => new WalkingZombie(this),
+                () => new FlyingEnemy(this),
+                () => new Plant(this),
+            ]
             this.speed = 0;
         }
 
@@ -32,9 +37,10 @@ window.addEventListener('load', () => {
             this.backgrounds.update();
             this.timeSinceLastEnemy += deltaTime;
             if(this.timeSinceLastEnemy > this.enemyTime) {
-                this.enemies.push(new WalkingZombie(this));
+                this.enemies.push(this.enemyFactory[Math.floor(Math.random() * 3)]());
                 this.timeSinceLastEnemy = 0;
-                this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;;
+                this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
+                console.log(this.enemies);
             }
             this.player.update(deltaTime);
             this.enemies.forEach((e) => {
