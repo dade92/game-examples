@@ -1,6 +1,7 @@
 import Player from './Player.js'
 import InputHandler from './InputHandler.js'
-import {Background} from './Background.js'
+import { Background } from './Background.js'
+import { WalkingZombie } from './Enemy.js';
 
 /**@type {HTMLCanvasElement} */
 
@@ -23,20 +24,38 @@ window.addEventListener('load', () => {
                 new Background('layer-3.png', 1660, 600),
                 new Background('layer-4.png', 1660, 600),
                 new Background('layer-5.png', 1660, 600),
-            ]
+            ];
+            this.maxEnemyTime = 20000;
+            this.minEnemyTime = 2000;
+            this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
+            this.timeSinceLastEnemy = 0;
+            this.enemies = [];
         }
 
         update(deltaTime) {
+            this.timeSinceLastEnemy += deltaTime;
+            if(this.timeSinceLastEnemy > this.enemyTime) {
+                this.enemies.push(new WalkingZombie(this));
+                this.timeSinceLastEnemy = 0;
+                this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;;
+            }
             this.player.update(deltaTime);
             this.backgrounds.forEach((b, index) => {
                 b.update((this.player.speed / 10) * index);
             });
+            this.enemies.forEach((e) => {
+                e.update(deltaTime);
+            });
+            this.enemies = this.enemies.filter(e => !e.toBeRemoved);
         }
 
         draw(ctx) {
             this.backgrounds.forEach((b) => {
                 b.draw(ctx)
             });
+            this.enemies.forEach((e) => {
+                e.draw(ctx);
+            })
             this.player.draw(ctx);
         }
     }
