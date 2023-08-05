@@ -25,7 +25,7 @@ window.addEventListener('load', () => {
 
             this.backgrounds = new Backgrounds(this, this.player);
             this.maxEnemyTime = 3000;
-            this.minEnemyTime = 500;
+            this.minEnemyTime = 300;
             this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
             this.timeSinceLastEnemy = 0;
             this.enemies = [];
@@ -94,7 +94,6 @@ window.addEventListener('load', () => {
                 this.enemies.push(this.enemyFactory[Math.floor(Math.random() * 3)]());
                 this.timeSinceLastEnemy = 0;
                 this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
-                console.log(this.enemies);
             }
         }
     }

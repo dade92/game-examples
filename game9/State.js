@@ -1,4 +1,4 @@
-import { Dust } from './Particles.js'
+import { Dust, Fire } from './Particles.js'
 
 export const states = {
     STANDING_RIGHT: 0,
@@ -81,11 +81,12 @@ export class RunLeft extends State {
 
     enter() {
         this.player.frameY = 3;
-        this.player.speed = -this.player.normalSpeed;
+        this.player.speed = -this.player.maxSpeed;
         this.player.numOfFrames = 9;
     }
 
     handleInput(input) {
+        this.player.game.particles.push(new Dust(this.player.game, this.player.x + this.player.width / 2, this.player.y + this.player.height));
         if(input === 'PRESS right') {
             this.player.setState(states.RUN_RIGHT);
         } else if(input === 'RELEASE right') {
@@ -152,6 +153,7 @@ export class RollDown extends State {
     }
 
     handleInput(input) {
+        this.player.game.particles.push(new Fire(this.player.game, this.player, this.player.x, this.player.y));
         if(this.player.onTheGround()) {
             this.player.setState(states.STANDING_RIGHT);
         }
@@ -193,6 +195,7 @@ export class RolllRight extends State {
     }
 
     handleInput(input) {
+        this.player.game.particles.push(new Fire(this.player.game, this.player, this.player.x, this.player.y));
         if(input === 'RELEASE space') {
             this.player.setState(states.STANDING_RIGHT);
         }
