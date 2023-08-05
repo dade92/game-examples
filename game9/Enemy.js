@@ -64,7 +64,7 @@ export class Plant extends Enemy {
 export class Mosquito extends Enemy {
     constructor(game) {
         super(game, 'enemy_fly.png', 60, 44, 6, 1);
-        this.speed = Math.random() * (-3) + 1;
+        this.speed = Math.random() * (-6) + 2;
         this.angle = 0;
         this.y = Math.random() * (game.height * 0.5);
     }
@@ -80,6 +80,6 @@ export class WalkingZombie extends Enemy {
     constructor(game) {
         super(game, 'enemy_zombie.png', 290, 404, 8, 4);
         this.y = game.height - this.height - game.groundMargin;
-        this.speed = -1;
+        this.speed = -2;
     }
 }

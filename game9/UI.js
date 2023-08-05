@@ -14,7 +14,7 @@ export class UI {
                 i * 50 /2 + 20, 20, 50 / 2, 50 / 2
             )
         }
-        ctx.fillText('Score: ' + this.game.score, 200, 40);
+        ctx.fillText('Score: ' + this.game.score, 170, 40);
 
         if(this.game.gameOver) {
             ctx.fillText("GAME OVER", this.game.width / 2, this.game.height / 2);

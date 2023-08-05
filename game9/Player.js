@@ -35,6 +35,7 @@ export default class Player {
         this.numOfFrames = 7;
         this.frameInterval = 1000 / 20;
         this.maxSpeed = 3;
+        this.normalSpeed = 1;
         this.lives = 5;
     }
 

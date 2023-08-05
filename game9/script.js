@@ -3,7 +3,6 @@ import InputHandler from './InputHandler.js'
 import { Backgrounds } from './Background.js'
 import { WalkingZombie, Mosquito, Plant } from './Enemy.js';
 import { UI } from './UI.js'
-import { Explosion } from './Explosion.js'
 
 /**@type {HTMLCanvasElement} */
 
@@ -35,7 +34,8 @@ window.addEventListener('load', () => {
                 () => new WalkingZombie(this),
                 () => new Mosquito(this),
                 () => new Plant(this),
-            ]
+            ];
+            this.particles = [];
             this.speed = 0;
             this.debug = false;
             this.lives = new Image();
@@ -62,6 +62,12 @@ window.addEventListener('load', () => {
             this.explosions.forEach((ex) => {
                 ex.update(deltaTime);
             });
+            this.particles.forEach((p, index) => {
+                p.update();
+                if(p.toBeRemoved) {
+                    this.particles.splice(index, 1);
+                }
+            });
             this.enemies = this.enemies.filter(e => !e.toBeRemoved);
             if(this.player.lives <= 0) {
                 this.gameOver = true;
@@ -77,6 +83,9 @@ window.addEventListener('load', () => {
             this.explosions.forEach((ex) => {
                 ex.draw(ctx);
             });
+            this.particles.forEach((p) => {
+                p.draw(ctx);
+            });            
             this.UI.draw(ctx);
         }
 
