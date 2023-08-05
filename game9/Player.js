@@ -1,4 +1,5 @@
 import { states, StandingRight, RunRight, CrawlRight, JumpRight, FallRight, RolllRight, RunLeft, RollDown, Hit } from "./State.js";
+import { Explosion } from './Explosion.js'  
 
 export default class Player {
     constructor(game, inputHandler) {
@@ -35,7 +36,6 @@ export default class Player {
         this.frameInterval = 1000 / 20;
         this.maxSpeed = 3;
         this.lives = 5;
-        this.isHit = false;
     }
 
     update(deltaTime) {
@@ -62,9 +62,7 @@ export default class Player {
             this.timeSinceLastFrame = 0;
         }
         this.currentState.handleInput(this.inputHandler.lastKey);
-        // if(!this.isHit) {
-            this.checkCollision();
-        // }
+        this.checkCollision();
     }
 
     onTheGround() {
@@ -97,9 +95,14 @@ export default class Player {
             const dy = (e.y + e.height / 2) - (this.y + this.height / 2);
             const distance = Math.sqrt(dx*dx + dy*dy);
             if(distance < e.width / 2 + this.width / 2) {
-                // TODO instead if the player is rolling, remove the enemy!
-                this.setState(states.HIT);
-                this.lives--;
+                e.toBeRemoved = true;
+                if(this.currentState.state === 'ROLL RIGHT' || this.currentState.state === 'ROLL DOWN') {
+                    this.game.explosions.push(new Explosion(this.x + this.width /2, this.y + this.height /2, 80));
+                    this.game.score++;
+                } else {
+                    this.setState(states.HIT);
+                    this.lives--;
+                }
             }
         })
     }

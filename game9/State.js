@@ -43,6 +43,8 @@ export class StandingRight extends State {
             this.player.setState(states.JUMP_RIGHT);
         } else if(input === 'PRESS left') {
             this.player.setState(states.RUN_LEFT);
+        } else if(input === 'PRESS space') {
+            this.player.setState(states.ROLL_RIGHT);
         }
     }
 }
@@ -204,11 +206,9 @@ export class Hit extends State {
         this.player.frameY = 4;
         this.player.numOfFrames = 11;
         this.player.speed = 0;
-        this.player.isHit = true;
     }
 
     handleInput(input) {
-        this.isHit = false;
         if(input === 'PRESS right') {
             this.player.setState(states.STANDING_RIGHT);
         } else if(input === 'PRESS left') {

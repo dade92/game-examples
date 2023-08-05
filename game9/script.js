@@ -2,6 +2,8 @@ import Player from './Player.js'
 import InputHandler from './InputHandler.js'
 import { Backgrounds } from './Background.js'
 import { WalkingZombie, Mosquito, Plant } from './Enemy.js';
+import { UI } from './UI.js'
+import { Explosion } from './Explosion.js'
 
 /**@type {HTMLCanvasElement} */
 
@@ -17,14 +19,18 @@ window.addEventListener('load', () => {
             this.width = width;
             this.height = height;
             this.groundMargin = 50;
+            
             this.input = new InputHandler(this);
             this.player = new Player(this, this.input);
+            this.UI = new UI(this);
+
             this.backgrounds = new Backgrounds(this, this.player);
             this.maxEnemyTime = 3000;
             this.minEnemyTime = 500;
             this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
             this.timeSinceLastEnemy = 0;
             this.enemies = [];
+            this.explosions = [];
             this.enemyFactory = [
                 () => new WalkingZombie(this),
                 () => new Mosquito(this),
@@ -34,6 +40,8 @@ window.addEventListener('load', () => {
             this.debug = false;
             this.lives = new Image();
             this.lives.src = 'heart.png';
+            this.gameOver = false;
+            this.score = 0;
         }
 
         update(deltaTime) {
@@ -51,26 +59,25 @@ window.addEventListener('load', () => {
             this.enemies.forEach((e) => {
                 e.update(deltaTime);
             });
-
+            this.explosions.forEach((ex) => {
+                ex.update(deltaTime);
+            });
             this.enemies = this.enemies.filter(e => !e.toBeRemoved);
+            if(this.player.lives <= 0) {
+                this.gameOver = true;
+            }
         }
 
         draw(ctx) {
             this.backgrounds.draw(ctx);
             this.enemies.forEach((e) => {
                 e.draw(ctx);
-            })
+            });
             this.player.draw(ctx);
-            this.drawLives(ctx);
-        }
-
-        drawLives(ctx) {
-            for(let i = 0; i< this.player.lives; i++) {
-                ctx.drawImage(
-                    this.lives,
-                    i * 50 /2 + 20, 20, 50 / 2, 50 / 2
-                )
-            }
+            this.explosions.forEach((ex) => {
+                ex.draw(ctx);
+            });
+            this.UI.draw(ctx);
         }
 
         addEnemy() {
