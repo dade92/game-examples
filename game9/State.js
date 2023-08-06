@@ -346,12 +346,15 @@ export class Hit extends State {
     constructor(player) {
         super('HIT');
         this.player = player;
+        this.sound = new Audio();
+        this.sound.src = 'hits/10.ogg'
     }
 
     enter() {
         this.player.frameY = 0;
         this.player.numOfFrames = 7;
         this.player.speed = 0;
+        this.sound.play();
     }
 
     handleInput(input) {

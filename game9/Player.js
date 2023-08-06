@@ -62,7 +62,9 @@ export default class Player {
     }
 
     update(deltaTime) {
-        this.x += this.speed;
+        if(this.x < 400 || this.speed < 0) {
+            this.x += this.speed;
+        }
         this.y += this.speedY;
         if(!this.onTheGround()) {
             this.speedY += this.weight;
@@ -78,12 +80,13 @@ export default class Player {
         if(this.y > this.gameHeight - this.height - this.game.groundMargin) {
             this.y = this.gameHeight - this.height - this.game.groundMargin;
         }
-
+        // sprite animation
         this.timeSinceLastFrame += deltaTime;
         if(this.timeSinceLastFrame > this.frameInterval) {
             this.frame = (this.frame + 1) % this.numOfFrames;
             this.timeSinceLastFrame = 0;
         }
+        // state machine for states transition
         this.currentState.handleInput(this.inputHandler.lastKey);
         this.checkCollision();
     }
@@ -114,6 +117,7 @@ export default class Player {
 
     checkCollision() {
         this.game.enemies.forEach((e) => {
+            // circle collision detection
             const dx = (e.x + e.width /2) - (this.x + this.width / 2);
             const dy = (e.y + e.height / 2) - (this.y + this.height / 2);
             const distance = Math.sqrt(dx*dx + dy*dy);
@@ -130,7 +134,7 @@ export default class Player {
                     this.lives--;
                 }
             }
-        })
+        });
     }
 
 }
