@@ -49,7 +49,7 @@ export class Fire extends Particle {
 }
 
 export class Dust extends Particle {
-    constructor(game, x,y) {
+    constructor(game, x, y) {
         super(game);
         this.size = Math.random() * 5 + 5;
         this.x = x;

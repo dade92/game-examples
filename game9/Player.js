@@ -1,4 +1,20 @@
-import { states, StandingRight, RunRight, CrawlRight, JumpRight, FallRight, RolllRight, RunLeft, RollDown, Hit } from "./State.js";
+import { states, 
+    StandingRight,
+    RunRight, 
+    CrawlRight, 
+    JumpRight, 
+    FallRight, 
+    RolllRight, 
+    RunLeft, 
+    RollDownRight, 
+    Hit, 
+    StandingLeft, 
+    JumpLeft, 
+    FallLeft,
+    RollLeft,
+    CrawlLeft,
+    RollDownLeft
+} from "./State.js";
 import { Explosion } from './Explosion.js'  
 
 export default class Player {
@@ -14,16 +30,22 @@ export default class Player {
             new FallRight(this),
             new RolllRight(this),
             new RunLeft(this),
-            new RollDown(this),
+            new RollDownRight(this),
             new Hit(this),
+            new StandingLeft(this),
+            new JumpLeft(this),
+            new RollLeft(this),
+            new CrawlLeft(this),
+            new FallLeft(this),
+            new RollDownLeft(this),
         ];
         this.currentState = this.states[0];
         this.inputHandler = inputHandler;
         this.image = document.getElementById('playerImage');
-        this.spriteWidth = 100;
-        this.spriteHeight = 91.3;
-        this.width = this.spriteWidth / 1;
-        this.height = this.spriteHeight / 1;
+        this.spriteWidth = 200;
+        this.spriteHeight = 181.83;
+        this.width = this.spriteWidth / 2;
+        this.height = this.spriteHeight / 2;
         this.x = 0;
         this.y = this.gameHeight - this.height - this.game.groundMargin;
         this.frame = 0;
@@ -35,7 +57,7 @@ export default class Player {
         this.numOfFrames = 7;
         this.frameInterval = 1000 / 20;
         this.maxSpeed = 3;
-        this.normalSpeed = 1;
+        this.normalSpeed = 2;
         this.lives = 5;
     }
 
@@ -97,7 +119,10 @@ export default class Player {
             const distance = Math.sqrt(dx*dx + dy*dy);
             if(distance < e.width / 2 + this.width / 2) {
                 e.toBeRemoved = true;
-                if(this.currentState.state === 'ROLL RIGHT' || this.currentState.state === 'ROLL DOWN') {
+                if(this.currentState.state === 'ROLL RIGHT' || 
+                    this.currentState.state === 'ROLL DOWN RIGHT' || 
+                    this.currentState.state === 'ROLL LEFT'
+                ) {
                     this.game.explosions.push(new Explosion(this.x + this.width /2, this.y + this.height /2, 80));
                     this.game.score++;
                 } else {
