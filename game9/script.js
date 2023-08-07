@@ -1,5 +1,5 @@
 import Player from './Player.js'
-import InputHandler from './InputHandler.js'
+import { InputHandler } from './InputHandler.js'
 import { Backgrounds } from './Background.js'
 import { WalkingZombie, Mosquito, Plant } from './Enemy.js';
 import { UI } from './UI.js'

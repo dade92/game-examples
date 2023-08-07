@@ -1,4 +1,4 @@
-class InputHandler {
+export class InputHandler {
     //TODO probably we should manage a list of keys not just the last one
     constructor(game) {
         this.game = game;
@@ -65,5 +65,3 @@ class InputHandler {
         });
     }
 }
-
-export default InputHandler;
