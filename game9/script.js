@@ -3,6 +3,7 @@ import { InputHandler } from './InputHandler.js'
 import { Background } from './Background.js'
 import { WalkingZombie, Mosquito, Plant } from './Enemy.js';
 import { UI } from './UI.js'
+import { Block } from './Block.js'
 
 /**@type {HTMLCanvasElement} */
 
@@ -36,6 +37,11 @@ window.addEventListener('load', () => {
                 () => new Plant(this),
             ];
             this.particles = [];
+            this.blocks = [
+                new Block(100, 100, 30, 30, this),
+                new Block(130, 100, 30, 30, this),
+                new Block(160, 100, 30, 30, this),
+            ];
             this.speed = 0;
             this.debug = false;
             this.lives = new Image();
@@ -69,6 +75,9 @@ window.addEventListener('load', () => {
                 }
             });
             this.enemies = this.enemies.filter(e => !e.toBeRemoved);
+            this.blocks.forEach((b) => {
+                b.update();
+            })
             if(this.player.lives <= 0) {
                 this.gameOver = true;
             }
@@ -83,9 +92,12 @@ window.addEventListener('load', () => {
             this.explosions.forEach((ex) => {
                 ex.draw(ctx);
             });
+            this.blocks.forEach((b) => {
+                b.draw(ctx);
+            })
             this.particles.forEach((p) => {
                 p.draw(ctx);
-            });            
+            });
             this.UI.draw(ctx);
         }
 
