@@ -38,9 +38,9 @@ window.addEventListener('load', () => {
             ];
             this.particles = [];
             this.blocks = [
-                new Block(100, 100, 30, 30, this),
-                new Block(130, 100, 30, 30, this),
-                new Block(160, 100, 30, 30, this),
+                new Block(300, 200, 30, 30, this),
+                new Block(330, 200, 30, 30, this),
+                new Block(360, 200, 30, 30, this),
             ];
             this.speed = 0;
             this.debug = false;
@@ -60,6 +60,7 @@ window.addEventListener('load', () => {
                 this.addEnemy();
             }
 
+            //TODO implement blocks collision using distance between squares
             // Updates player and enemies. Collision detection too
             this.player.update(deltaTime);
             this.enemies.forEach((e) => {
