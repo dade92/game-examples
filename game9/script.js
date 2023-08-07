@@ -1,6 +1,6 @@
 import Player from './Player.js'
 import { InputHandler } from './InputHandler.js'
-import { Backgrounds } from './Background.js'
+import { Background } from './Background.js'
 import { WalkingZombie, Mosquito, Plant } from './Enemy.js';
 import { UI } from './UI.js'
 
@@ -23,7 +23,7 @@ window.addEventListener('load', () => {
             this.player = new Player(this, this.input);
             this.UI = new UI(this);
 
-            this.backgrounds = new Backgrounds(this, this.player);
+            this.background = new Background(this, this.player);
             this.maxEnemyTime = 3000;
             this.minEnemyTime = 300;
             this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
@@ -45,8 +45,8 @@ window.addEventListener('load', () => {
         }
 
         update(deltaTime) {
-            // Updates the backgrounds
-            this.backgrounds.update();
+            // Updates the background
+            this.background.update();
 
             // Enemy adding logic
             this.timeSinceLastEnemy += deltaTime;
@@ -75,7 +75,7 @@ window.addEventListener('load', () => {
         }
 
         draw(ctx) {
-            this.backgrounds.draw(ctx);
+            this.background.draw(ctx);
             this.enemies.forEach((e) => {
                 e.draw(ctx);
             });

@@ -1,4 +1,4 @@
-class Background {
+class Layer {
     constructor(image, width, height, speedModifier, game) {
         this.image = new Image();
         this.image.src = image;
@@ -28,18 +28,18 @@ class Background {
     }
 }
 
-export class Backgrounds {
+export class Background {
     constructor(game, player) {
         this.game = game;
         this.player = player;
         this.width = 1667;
         this.height = 500;
         this.layers = [
-            new Background('layer-1.png', this.width, this.height, 0.1, game),
-            new Background('layer-2.png', this.width, this.height, 0.3, game),
-            new Background('layer-3.png', this.width, this.height, 0.5, game),
-            new Background('layer-4.png', this.width, this.height, 0.7, game),
-            new Background('layer-5.png', this.width, this.height, 1, game),
+            new Layer('layer-1.png', this.width, this.height, 0.1, game),
+            new Layer('layer-2.png', this.width, this.height, 0.3, game),
+            new Layer('layer-3.png', this.width, this.height, 0.5, game),
+            new Layer('layer-4.png', this.width, this.height, 0.7, game),
+            new Layer('layer-5.png', this.width, this.height, 1, game),
         ];
     }
 

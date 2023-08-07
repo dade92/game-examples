@@ -62,6 +62,7 @@ export default class Player {
     }
 
     update(deltaTime) {
+        // player movement
         if(this.x < 400 || this.speed < 0) {
             this.x += this.speed;
         }
