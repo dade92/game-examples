@@ -19,18 +19,17 @@ window.addEventListener('load', () => {
             this.width = width;
             this.height = height;
             this.groundMargin = 50;
-            
-            this.input = new InputHandler(this);
-            this.player = new Player(this, this.input);
-            this.UI = new UI(this);
-
-            this.background = new Background(this, this.player);
             this.maxEnemyTime = 3000;
             this.minEnemyTime = 300;
             this.enemyTime = Math.random() * this.maxEnemyTime + this.minEnemyTime;
             this.timeSinceLastEnemy = 0;
+
             this.enemies = [];
             this.explosions = [];
+            this.input = new InputHandler(this);
+            this.player = new Player(this, this.input);
+            this.UI = new UI(this);
+            this.background = new Background(this, this.player);
             this.enemyFactory = [
                 () => new WalkingZombie(this),
                 () => new Mosquito(this),
@@ -44,8 +43,6 @@ window.addEventListener('load', () => {
             ];
             this.speed = 0;
             this.debug = false;
-            this.lives = new Image();
-            this.lives.src = 'heart.png';
             this.gameOver = false;
             this.score = 0;
         }
