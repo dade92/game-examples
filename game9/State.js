@@ -139,7 +139,6 @@ export class JumpRight extends State {
     enter() {
         this.player.frameY = 2;
         this.player.speedY = -20;
-        this.player.speed = this.player.maxSpeed;
         this.player.numOfFrames = 7;
     }
 
@@ -148,6 +147,8 @@ export class JumpRight extends State {
             this.player.setState(states.FALL_RIGHT);
         } else if(input === 'PRESS space') {
             this.player.setState(states.ROLL_DOWN_RIGHT);
+        } else if(input === 'PRESS right') {
+            this.player.speed = this.player.normalSpeed;
         }
     }
 }
@@ -181,7 +182,6 @@ export class JumpLeft extends State {
     enter() {
         this.player.frameY = 3;
         this.player.speedY = -20;
-        this.player.speed = -this.player.maxSpeed;
         this.player.numOfFrames = 7;
     }
 
@@ -190,6 +190,8 @@ export class JumpLeft extends State {
             this.player.setState(states.FALL_LEFT);
         } else if(input === 'PRESS space') {
             this.player.setState(states.ROLL_DOWN_LEFT);
+        } else if(input === 'PRESS left') {
+            this.player.speed = -this.player.normalSpeed;
         }
     }
 }
@@ -217,7 +219,7 @@ export class FallLeft extends State {
 
 export class RollDownRight extends State {
     constructor(player) {
-        super('ROLL DOWN RIGHT');
+        super('ROLL');
         this.player = player;
     }
 
@@ -238,7 +240,7 @@ export class RollDownRight extends State {
 
 export class RollDownLeft extends State {
     constructor(player) {
-        super('ROLL DOWN LEFT');
+        super('ROLL');
         this.player = player;
     }
 
@@ -299,7 +301,7 @@ export class CrawlLeft extends State {
 
 export class RolllRight extends State {
     constructor(player) {
-        super('ROLL RIGHT');
+        super('ROLL');
         this.player = player;
         this.triggerPosition = 0;
     }
@@ -321,7 +323,7 @@ export class RolllRight extends State {
 
 export class RollLeft extends State {
     constructor(player) {
-        super('ROLL LEFT');
+        super('ROLL');
         this.player = player;
         this.triggerPosition = 0;
     }

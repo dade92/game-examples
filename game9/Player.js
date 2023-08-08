@@ -56,8 +56,8 @@ export default class Player {
         this.timeSinceLastFrame = 0;
         this.numOfFrames = 7;
         this.frameInterval = 1000 / 20;
-        this.maxSpeed = 3;
-        this.normalSpeed = 2;
+        this.maxSpeed = 5;
+        this.normalSpeed = 3;
         this.lives = 5;
     }
 
@@ -72,6 +72,11 @@ export default class Player {
         } else {
             this.speedY = 0;
         }
+
+        // if(this.onTopOfBlock()) {
+        //     this.speedY = 0;
+        //     this.setState(states.STANDING_RIGHT);
+        // }
 
         if(this.x < 0) {
             this.x = 0;
@@ -93,7 +98,9 @@ export default class Player {
     }
 
     onTheGround() {
-        return this.y >= this.gameHeight - this.height - this.game.groundMargin;
+        return (
+            this.y >= this.gameHeight - this.height - this.game.groundMargin
+        );
     }
 
     setState(state) {
@@ -124,10 +131,7 @@ export default class Player {
             const distance = Math.sqrt(dx*dx + dy*dy);
             if(distance < e.width / 2 + this.width / 2) {
                 e.toBeRemoved = true;
-                if(this.currentState.state === 'ROLL RIGHT' || 
-                    this.currentState.state === 'ROLL DOWN RIGHT' || 
-                    this.currentState.state === 'ROLL LEFT'
-                ) {
+                if(this.currentState.state === 'ROLL') {
                     this.game.explosions.push(new Explosion(this.x + this.width /2, this.y + this.height /2, 80));
                     this.game.score++;
                 } else {
@@ -137,5 +141,18 @@ export default class Player {
             }
         });
     }
+
+    // onTopOfBlock() {
+    //     this.game.blocks.forEach(b => {
+    //         if( b.visible &&
+    //             this.x >= b.x && 
+    //             this.x <= b.x+b.width && 
+    //             this.y + this.height >= b.y
+    //         ) {
+    //             // collision detected
+    //             console.log('On top of a block');
+    //         } 
+    //     });
+    // }
 
 }

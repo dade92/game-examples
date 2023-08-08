@@ -37,9 +37,12 @@ window.addEventListener('load', () => {
             ];
             this.particles = [];
             this.blocks = [
-                new Block(300, 200, 30, 30, this),
-                new Block(330, 200, 30, 30, this),
-                new Block(360, 200, 30, 30, this),
+                new Block(300, 200, 20, 30, this),
+                new Block(320, 200, 20, 30, this),
+                new Block(340, 200, 20, 30, this),
+                new Block(360, 200, 20, 30, this),
+                new Block(380, 200, 20, 30, this),
+                new Block(400, 200, 20, 30, this),
             ];
             this.speed = 0;
             this.debug = false;
